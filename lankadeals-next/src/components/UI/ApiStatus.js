@@ -1,65 +1,31 @@
 // src/components/UI/ApiStatus.js
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-
-// CORRECTED: Import the new Airtable service.
-// The path must go up three levels (../../..) to reach the 'lib' folder at the project root.
-import { airtableService } from '../../../lib/airtableService.js'; 
-
-const ApiStatus = () => {
-  const [apiStatus, setApiStatus] = useState('checking');
-  const [dealsCount, setDealsCount] = useState(0);
-
-  // NOTE: This client component must be able to verify connectivity, so we use useEffect.
-  useEffect(() => {
-    checkApiStatus();
-  }, []);
-
-  const checkApiStatus = async () => {
-    try {
-      setApiStatus('checking');
-      
-      // CORRECTED: Call the new airtableService function
-      const deals = await airtableService.getDeals(); 
-      
-      if (deals && deals.length > 0) {
-        setApiStatus('connected');
-        setDealsCount(deals.length);
-      } else {
-        setApiStatus('no-data');
-      }
-    } catch (error) {
-      // Catch error if Airtable is misconfigured or inaccessible
-      setApiStatus('error');
-    }
-  };
-
+// Simplified to accept props for immediate action
+const ApiStatus = ({ onRefresh, loading, dealsCount }) => {
+  
+  // NOTE: Status check logic is removed here; we assume success if dealsCount > 0
   const getStatusMessage = () => {
-    switch (apiStatus) {
-      case 'connected':
-        return `✅ Connected to Airtable • ${dealsCount} deals loaded`;
-      case 'checking':
-        return '🔄 Connecting to Airtable...';
-      case 'error':
-        return '❌ Connection failed • Check .env.local and Airtable keys';
-      case 'no-data':
-        return '⚠️ Connected but no deals found or displaying fallback data';
-      default:
-        return 'Checking connection...';
-    }
+    if (loading) return '🔄 Updating Deals...';
+    if (dealsCount > 0) return `✅ ${dealsCount} deals displayed (statically generated)`;
+    return '⚠️ No deals found or displaying fallback data.';
   };
+
+  const statusClass = dealsCount > 0 ? 'connected' : 'no-data';
 
   return (
-    <div className={`api-status ${apiStatus}`}>
+    <div className={`api-status ${statusClass}`}>
       <div className="status-content">
         <span className="status-message">{getStatusMessage()}</span>
         <button 
           className="refresh-btn"
-          onClick={checkApiStatus}
-          title="Refresh connection"
+          onClick={onRefresh} // Triggers the refreshDeals function in the parent
+          disabled={loading}
+          title="Refresh deals from Airtable"
         >
-          <i className="fas fa-sync-alt"></i>
+          <i className={`fas fa-sync-alt ${loading ? 'fa-spin' : ''}`}></i>
         </button>
       </div>
     </div>

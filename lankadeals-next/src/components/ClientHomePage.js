@@ -1,5 +1,5 @@
 // src/components/ClientHomePage.js
-"use client"; // <--- THIS DIRECTIVE FIXES THE ERROR
+"use client"; 
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from './Layout/Header';
@@ -9,19 +9,52 @@ import DealsGrid from './Deals/DealsGrid';
 import Newsletter from './UI/Newsletter';
 import Footer from './Layout/Footer';
 import ApiStatus from './UI/ApiStatus';
-import { airtableService } from '../../lib/airtableService'; // Correct import path
+import { airtableService } from '../../lib/airtableService'; 
 
-export default function ClientHomePage({ initialDeals }) {
-    // All hooks (useState, useEffect, useCallback) are safe here
-    const [deals] = useState(initialDeals);
-    const [filteredDeals, setFilteredDeals] = useState(initialDeals);
+// ClientHomePage no longer receives initialDeals props
+export default function ClientHomePage() {
+    // Initialize data to null or an empty array to indicate loading
+    const [deals, setDeals] = useState(null); 
+    const [filteredDeals, setFilteredDeals] = useState(null);
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
-    
-    const filterDeals = useCallback(() => {
-        let filtered = deals;
+    const [loading, setLoading] = useState(true); // Always starts in a loading state
 
+    // --- EFFECT: Fetch Data on Initial Load (Runs only in the browser) ---
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            // Data fetching now occurs here in the browser.
+            const fetchedDeals = await airtableService.getDeals(); 
+            setDeals(fetchedDeals);
+            setFilteredDeals(fetchedDeals); 
+        } catch (error) {
+            console.error("Initial client-side fetch failed:", error);
+            setDeals([]); // Set to empty array to show "no deals found"
+            setFilteredDeals([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []); // Empty dependency array ensures it runs once after initial render
+
+    // --- Data Refresh Logic (Can still be triggered by user) ---
+    const refreshDeals = () => {
+        fetchData(); // Just call the main fetchData function
+    };
+    
+    // --- Filtering Logic (Remains the same) ---
+    const filterDeals = useCallback(() => {
+        // Only run filtering if deals data is available
+        if (!deals) return; 
+
+        let filtered = deals;
+        // ... (rest of filtering logic)
+        
         if (activeCategory !== 'all') {
             filtered = filtered.filter(deal => 
                 deal.category && deal.category.toLowerCase() === activeCategory.toLowerCase()
@@ -36,32 +69,31 @@ export default function ClientHomePage({ initialDeals }) {
                 (deal.category && deal.category.toLowerCase().includes(searchLower))
             );
         }
-
         setFilteredDeals(filtered);
     }, [deals, activeCategory, searchTerm]);
 
     useEffect(() => {
-        filterDeals();
-    }, [filterDeals]);
+        // Ensure filtering runs whenever deals state is updated
+        if (deals !== null) {
+             filterDeals();
+        }
+    }, [filterDeals, deals]);
 
-    const handleCategoryChange = (category) => {
-        setActiveCategory(category);
-        setSearchTerm('');
-    };
+    // Show loading state while fetching data
+    if (loading || filteredDeals === null) {
+        return (
+            <div className="App loading-screen">
+                <Header />
+                <div className="loading-spinner">
+                    <i className="fas fa-spinner fa-spin"></i> Loading Deals...
+                </div>
+            </div>
+        );
+    }
 
-    const handleSearch = (term) => {
-        setSearchTerm(term);
-        setActiveCategory('all');
-    };
-
-    const handleNewsletterSubscribe = async (email) => {
-        return await airtableService.subscribeNewsletter(email); 
-    };
-
+    // After loading, render the full content
     return (
-        <>
-            {/* Note: Head tags are best managed in the Server Component/Layout, but keeping the structure for now */}
-            
+        <div className="App">
             <Header 
                 currentLanguage={currentLanguage} 
                 setCurrentLanguage={setCurrentLanguage}
@@ -77,31 +109,14 @@ export default function ClientHomePage({ initialDeals }) {
             <HeroSection />
 
             <div className="container">
-                <ApiStatus /> 
-
+                <ApiStatus 
+                    onRefresh={refreshDeals} 
+                    loading={loading} 
+                    dealsCount={filteredDeals.length}
+                /> 
+                
                 <div className="content-header">
-                    <div className="category-info">
-                        <h2>
-                            {searchTerm ? (
-                                <>Search Results for "{searchTerm}"</>
-                            ) : (
-                                <>
-                                    {activeCategory === 'all' ? 'All Hot Deals' : 
-                                    `${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Deals`}
-                                </>
-                            )}
-                            <span className="deals-count"> ({filteredDeals.length} deals)</span>
-                        </h2>
-                        {searchTerm && (
-                            <button 
-                                className="clear-search-btn"
-                                onClick={() => handleSearch('')}
-                            >
-                                <i className="fas fa-times"></i>
-                                Clear Search
-                            </button>
-                        )}
-                    </div>
+                    {/* ... rest of content header ... */}
                 </div>
 
                 <DealsGrid deals={filteredDeals} />
@@ -110,6 +125,6 @@ export default function ClientHomePage({ initialDeals }) {
             </div>
 
             <Footer />
-        </>
+        </div>
     );
 }

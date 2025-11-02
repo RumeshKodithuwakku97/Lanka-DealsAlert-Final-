@@ -1,18 +1,15 @@
 // app/page.tsx
-// This Server Component handles data fetching during SSG/ISR.
+// This file is now a simple Server Component that renders the client wrapper.
 
-import { airtableService } from '../lib/airtableService';
 import ClientHomePage from '../src/components/ClientHomePage'; 
 
-// Next.js config for Incremental Static Regeneration (ISR)
-// Re-fetches the deal data in the background every 5 minutes (300 seconds).
-export const revalidate = 300; 
+// CRITICAL CHANGE: Remove ISR configuration and server-side fetching.
+// Data will NOT be pre-rendered or cached by the server.
+// export const revalidate = 300; // DELETE THIS LINE
 
-// This async function fetches the initial deals data from the server.
-export default async function Page() {
+// This component no longer needs to be async or fetch data.
+export default function Page() {
     
-    const initialDeals = await airtableService.getDeals();
-    
-    // Pass the fetched static data to the client component for interactivity.
-    return <ClientHomePage initialDeals={initialDeals} />;
+    // Pass NO initial deals data. The client will handle the fetch.
+    return <ClientHomePage />;
 }
