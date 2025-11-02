@@ -13,8 +13,7 @@ export const airtableService = {
     try {
       // Use process.env.NEXT_PUBLIC_VERCEL_URL for deployment URL on Vercel, 
       // or default to localhost during development.
-      const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000';
-      
+      const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000';
       const response = await fetch(`${baseUrl}/api/deals`, {
         // Crucial: Use 'no-cache' for development, or rely on the revalidate tag in app/page.tsx
         cache: 'no-store' 
