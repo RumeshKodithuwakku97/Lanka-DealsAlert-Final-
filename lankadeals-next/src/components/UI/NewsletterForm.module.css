@@ -1,0 +1,67 @@
+/* src/components/common/NewsletterForm.module.css */
+
+.newsletterContent {
+    position: relative;
+    z-index: 1;
+}
+
+.newsletterH3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.newsletterP {
+    margin-bottom: 1.5rem;
+}
+
+.newsletterForm {
+    display: flex;
+    max-width: 400px;
+    margin: 0 auto;
+    gap: 1rem;
+}
+
+.newsletterInput {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.newsletterButton {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+}
+
+.newsletterButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    background: var(--primary-dark);
+}
+
+.newsletterButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.formMessage {
+    margin-top: 1rem;
+    font-weight: 500;
+    color: var(--white); /* Assuming newsletter section is dark background */
+}
