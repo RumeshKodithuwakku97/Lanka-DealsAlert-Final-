@@ -1,5 +1,5 @@
 // src/components/Layout/Header.js (Simplified for Public Site)
-
+"use client";
 import React, { useState } from 'react';
 // REMOVED: import LoginModal from '../Auth/LoginModal';
 // REMOVED: import SignupModal from '../Auth/SignupModal';

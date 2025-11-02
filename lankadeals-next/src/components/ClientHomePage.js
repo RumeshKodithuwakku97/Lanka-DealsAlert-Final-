@@ -10,50 +10,65 @@ import Newsletter from './UI/Newsletter';
 import Footer from './Layout/Footer';
 import ApiStatus from './UI/ApiStatus';
 import { airtableService } from '../../lib/airtableService'; 
+// NOTE: Header and other components must also have "use client" if they use hooks/events.
 
-// ClientHomePage no longer receives initialDeals props
 export default function ClientHomePage() {
-    // Initialize data to null or an empty array to indicate loading
+    // Initialize data to null to indicate initial loading state
     const [deals, setDeals] = useState(null); 
     const [filteredDeals, setFilteredDeals] = useState(null);
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
-    const [loading, setLoading] = useState(true); // Always starts in a loading state
+    const [loading, setLoading] = useState(true); 
 
-    // --- EFFECT: Fetch Data on Initial Load (Runs only in the browser) ---
+    // --- Search & Filter Handlers ---
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+        // Reset category filter when search term is used
+        setActiveCategory('all'); 
+    };
+
+    const handleCategoryChange = (category) => {
+        setActiveCategory(category);
+        // Clear search term when category filter is used
+        setSearchTerm('');
+    };
+
+    const handleNewsletterSubscribe = async (email) => {
+        return await airtableService.subscribeNewsletter(email); 
+    };
+
+    // --- Data Fetching Logic ---
     const fetchData = async () => {
         setLoading(true);
         try {
-            // Data fetching now occurs here in the browser.
+            // Data fetching occurs here in the browser.
+            // Airtable service is called, which proxies to the internal API route.
             const fetchedDeals = await airtableService.getDeals(); 
             setDeals(fetchedDeals);
             setFilteredDeals(fetchedDeals); 
         } catch (error) {
             console.error("Initial client-side fetch failed:", error);
-            setDeals([]); // Set to empty array to show "no deals found"
+            setDeals([]); 
             setFilteredDeals([]);
         } finally {
             setLoading(false);
         }
     };
 
+    const refreshDeals = useCallback(() => {
+        fetchData(); // Just call the main fetchData function
+    }, []);
+
     useEffect(() => {
         fetchData();
-    }, []); // Empty dependency array ensures it runs once after initial render
+    }, [refreshDeals]); // Run once on mount to fetch data
 
-    // --- Data Refresh Logic (Can still be triggered by user) ---
-    const refreshDeals = () => {
-        fetchData(); // Just call the main fetchData function
-    };
-    
-    // --- Filtering Logic (Remains the same) ---
+    // --- Filtering Logic (Runs whenever state changes) ---
     const filterDeals = useCallback(() => {
-        // Only run filtering if deals data is available
         if (!deals) return; 
 
         let filtered = deals;
-        // ... (rest of filtering logic)
         
         if (activeCategory !== 'all') {
             filtered = filtered.filter(deal => 
@@ -73,13 +88,14 @@ export default function ClientHomePage() {
     }, [deals, activeCategory, searchTerm]);
 
     useEffect(() => {
-        // Ensure filtering runs whenever deals state is updated
+        // Only run filtering once data is loaded and whenever dependencies change
         if (deals !== null) {
              filterDeals();
         }
     }, [filterDeals, deals]);
 
-    // Show loading state while fetching data
+
+    // --- Render Logic ---
     if (loading || filteredDeals === null) {
         return (
             <div className="App loading-screen">
@@ -91,13 +107,12 @@ export default function ClientHomePage() {
         );
     }
 
-    // After loading, render the full content
     return (
         <div className="App">
             <Header 
                 currentLanguage={currentLanguage} 
-                setCurrentLanguage={setCurrentLanguage}
-                onSearch={handleSearch}
+                setCurrentLanguage={setCurrentLanguage} // Passed correctly
+                onSearch={handleSearch} // Passed correctly
                 searchTerm={searchTerm}
             />
 
@@ -116,7 +131,28 @@ export default function ClientHomePage() {
                 /> 
                 
                 <div className="content-header">
-                    {/* ... rest of content header ... */}
+                    <div className="category-info">
+                        <h2>
+                            {searchTerm ? (
+                                <>Search Results for "{searchTerm}"</>
+                            ) : (
+                                <>
+                                    {activeCategory === 'all' ? 'All Hot Deals' : 
+                                    `${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Deals`}
+                                </>
+                            )}
+                            <span className="deals-count"> ({filteredDeals.length} deals)</span>
+                        </h2>
+                        {searchTerm && (
+                            <button 
+                                className="clear-search-btn"
+                                onClick={() => handleSearch('')}
+                            >
+                                <i className="fas fa-times"></i>
+                                Clear Search
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 <DealsGrid deals={filteredDeals} />
