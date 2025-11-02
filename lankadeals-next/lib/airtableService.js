@@ -17,7 +17,7 @@ export const airtableService = {
       
       const response = await fetch(`${baseUrl}/api/deals`, {
         // Crucial: Use 'no-cache' for development, or rely on the revalidate tag in app/page.tsx
-        headers: { 'Cache-Control': 'no-cache' }
+        cache: 'no-store' 
       });
       
       if (!response.ok) {
