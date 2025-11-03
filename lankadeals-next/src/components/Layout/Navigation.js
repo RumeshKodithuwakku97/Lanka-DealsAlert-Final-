@@ -1,14 +1,17 @@
 import React from 'react';
+import { getTranslation } from '../../../lib/localizationService';
 
-const Navigation = ({ onCategoryChange, activeCategory }) => {
+const Navigation = ({ onCategoryChange, activeCategory, currentLanguage }) => {
+  const T = (key, fallback) => getTranslation(currentLanguage, key, fallback);
+  
   const categories = [
-    { id: 'all', name: 'All Deals', icon: 'fas fa-fire' },
-    { id: 'electronics', name: 'Electronics', icon: 'fas fa-laptop' },
-    { id: 'fashion', name: 'Fashion', icon: 'fas fa-tshirt' },
-    { id: 'home', name: 'Home & Living', icon: 'fas fa-home' },
-    { id: 'grocery', name: 'Groceries', icon: 'fas fa-shopping-basket' },
-    { id: 'beauty', name: 'Beauty', icon: 'fas fa-spa' },
-    { id: 'digital', name: 'Digital Products', icon: 'fas fa-desktop' }
+    { id: 'all', nameKey: 'category_all', icon: 'fas fa-fire' },
+    { id: 'electronics', nameKey: 'category_electronics', icon: 'fas fa-laptop' },
+    { id: 'fashion', nameKey: 'category_fashion', icon: 'fas fa-tshirt' },
+    { id: 'home', nameKey: 'category_home', icon: 'fas fa-home' },
+    { id: 'grocery', nameKey: 'category_grocery', icon: 'fas fa-shopping-basket' },
+    { id: 'beauty', nameKey: 'category_beauty', icon: 'fas fa-spa' },
+    { id: 'digital', nameKey: 'category_digital', icon: 'fas fa-desktop' }
   ];
 
   return (
@@ -22,7 +25,7 @@ const Navigation = ({ onCategoryChange, activeCategory }) => {
               onClick={() => onCategoryChange(category.id)}
             >
               <i className={category.icon}></i>
-              {category.name}
+              {T(category.nameKey)}
             </button>
           ))}
         </div>

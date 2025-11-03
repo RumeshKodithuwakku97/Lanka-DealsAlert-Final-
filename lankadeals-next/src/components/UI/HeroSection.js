@@ -1,7 +1,10 @@
 import React from 'react';
+import { getTranslation } from '../../../lib/localizationService';
 // REMOVE THIS LINE: import './HeroSection.css';
 
-const HeroSection = () => {
+const HeroSection = ({ currentLanguage }) => {
+  const T = (key, fallback) => getTranslation(currentLanguage, key, fallback);
+
   const scrollToDeals = () => {
     const dealsSection = document.querySelector('.deals-grid');
     if (dealsSection) {
@@ -13,11 +16,11 @@ const HeroSection = () => {
     <section className="hero">
       <div className="container">
         <div className="hero-content">
-          <h1>Never Miss a Deal Again in Sri Lanka! 🇱🇰</h1>
-          <p>Find the best prices from Daraz, Kapruka, MyShop, and all your favorite Sri Lankan stores</p>
+          <h1>{T('hero_headline')}</h1>
+          <p>{T('hero_subtext')}</p>
           <button className="cta-button" onClick={scrollToDeals}>
             <i className="fas fa-bolt"></i>
-            Explore Hot Deals
+            {T('explore_deals_button')}
           </button>
         </div>
       </div>

@@ -1,16 +1,3 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
 /* Reset and Base Styles */
 * {
   margin: 0;
@@ -18,31 +5,72 @@ code {
   box-sizing: border-box;
 }
 
+/* --- POLISHED TYPOGRAPHY BASE --- */
+html {
+  /* Ensures 1rem defaults to 16px for consistent scaling */
+  font-size: 100%;
+}
+
+body {
+  /* Uses the Geist font variable and a robust system font fallback */
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  line-height: 1.6; /* Optimized for long-form reading */
+  color: var(--text-color);
+  background-color: var(--light-color);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  /* Apply the mono font variable to code blocks and code snippets */
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875em; 
+}
+
+/* New style for paragraphs to ensure consistent vertical rhythm */
+p {
+    margin-bottom: 1rem;
+}
+
+/* Typography for Headings - Refined Vertical Rhythm */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    line-height: 1.2; 
+    margin-top: 1.75rem; /* Slightly increased top margin */
+    margin-bottom: 0.75rem; /* Slightly increased bottom margin */
+    font-weight: 700;
+}
+/* --- END POLISHED TYPOGRAPHY BASE --- */
+
+
 :root {
-  /* Primary Colors - Enhanced for better accessibility */
-  --primary-color: #e55a2b;    /* Darker, more accessible orange */
-  --primary-light: #ff8c5a;    /* Lighter orange for hover states */
-  --primary-dark: #c44a23;     /* Darker for active states */
+  /* --- Optimized Sri Lankan Deals Palette --- */
   
-  /* Secondary Colors */
-  --secondary-color: #f7931e;  /* Your original secondary */
-  --accent-color: #ffd166;     /* Softer, more accessible yellow */
+  /* Primary Colors (Action, Urgency, Main Deals) */
+  --primary-color: #D5441E;    /* Richer Red-Orange for high-impact action */
+  --primary-light: #FF6B4E;    /* Lighter shade for hover states */
+  --primary-dark: #A83718;     /* Darker shade for active states/deep urgency */
   
-  /* Neutral Colors */
-  --dark-color: #2d3748;       /* Rich dark gray instead of pure black */
-  --text-color: #2d3748;       /* For body text */
-  --text-light: #718096;       /* For secondary text */
-  --light-color: #f7fafc;      /* Clean light background */
+  /* Secondary Colors (Trust, Stability, Navigation) */
+  --secondary-color: #005662;  /* Deep Teal for trust and strong contrast */
+  --accent-color: #FFC107;     /* Vibrant Gold/Amber for highlights and value badges */
+  
+  /* Neutral Colors (Readability & Contrast) */
+  --dark-color: #212529;       /* Dark Charcoal for headers/footers (max contrast) */
+  --text-color: #343A40;       /* Dark gray for body text */
+  --text-light: #718096;       /* Medium gray for secondary text */
+  --light-color: #F8F9FA;      /* Clean off-white background */
   --white: #ffffff;
   
-  /* Functional Colors */
-  --success-color: #38a169;    /* Better green for discounts */
-  --warning-color: #dd6b20;    /* For important notices */
-  --info-color: #3182ce;       /* For informational elements */
+  /* Functional Colors (SEO Friendly Statuses) */
+  --success-color: #28A745;    /* Standard, clean success green */
+  --warning-color: #FFC107;    /* Used accent for warnings for max visibility */
+  --info-color: #17A2B8;       /* Clear light blue for information */
   
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  --gradient-dark: linear-gradient(135deg, #2d3748, #4a5568);
+  --gradient-primary: linear-gradient(135deg, var(--primary-color), #FF6B4E);
+  --gradient-dark: linear-gradient(135deg, var(--dark-color), #495057);
   
   /* Shadows */
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -53,13 +81,6 @@ code {
   --transition: all 0.3s ease;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--light-color);
-  overflow-x: hidden;
-}
 
 .container {
   max-width: 1200px;
@@ -67,11 +88,11 @@ body {
   padding: 0 20px;
 }
 
-/* Language Selector */
+/* Language Selector - Position fixed, slightly tighter to the corner */
 .language-selector {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   z-index: 1000;
   background: var(--white);
   border-radius: 25px;
@@ -135,8 +156,8 @@ body {
 }
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 800;
   display: flex;
   align-items: center;
   animation: fadeInDown 0.8s ease;
@@ -144,7 +165,7 @@ body {
 
 .logo i {
   margin-right: 10px;
-  font-size: 2rem;
+  font-size: 2.2rem;
 }
 
 .logo span {
@@ -210,13 +231,15 @@ body {
   transform: translateY(-2px);
 }
 
-/* Navigation */
+/* Navigation - Made sticky for better usability */
 .navigation {
   background: var(--white);
   padding: 1rem 0;
-  box-shadow: var(--shadow);
-  position: relative;
-  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+  position: sticky;
+  top: 0; 
+  z-index: 9;
+  border-bottom: 1px solid #eee; /* Subtle separator */
 }
 
 .categories {
@@ -241,22 +264,22 @@ body {
   font-weight: 500;
 }
 
-.category-btn:hover, .category-btn.active {
+.category-btn.active {
   background: var(--primary-color);
   color: var(--white);
   border-color: var(--primary-color);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(229, 90, 43, 0.3);
+  box-shadow: 0 4px 8px rgba(213, 68, 30, 0.3); 
 }
 
-/* Hero Section */
+/* Hero Section - Increased vertical padding */
 .hero {
   background: linear-gradient(rgba(45, 55, 72, 0.8), rgba(45, 55, 72, 0.8)), url('https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3');
   background-size: cover;
   background-position: center;
   color: var(--white);
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem; /* Polished padding */
   margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
@@ -270,7 +293,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23e55a2b" fill-opacity="0.2" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23D5441E" fill-opacity="0.2" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
   background-size: cover;
   background-position: bottom;
 }
@@ -282,14 +305,16 @@ body {
 }
 
 .hero h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 1rem;
+  line-height: 1.1; 
+  font-weight: 800; 
 }
 
 .hero p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
+  font-size: 1.3rem; 
+  margin-bottom: 2.5rem; 
+  opacity: 0.95;
 }
 
 .cta-button {
@@ -322,6 +347,7 @@ body {
   margin-bottom: 3rem;
 }
 
+/* Deal Card - Polished hover effect */
 .deal-card {
   background: var(--white);
   border-radius: 10px;
@@ -333,8 +359,8 @@ body {
 }
 
 .deal-card:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--shadow-xl);
+  transform: translateY(-5px); /* Less aggressive, smoother lift */
+  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.15); /* Stronger, professional shadow lift */
 }
 
 .deal-image-container {
@@ -352,27 +378,95 @@ body {
   transform: scale(1.05);
 }
 
+/* Deal Badge - Sharper look for the badge */
 .deal-badge {
   background: var(--primary-color);
   color: var(--white);
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
+  padding: 0.4rem 0.9rem; /* Slightly larger padding */
+  border-radius: 4px; /* Squared corners for a cleaner badge */
+  font-size: 0.9rem; /* Slightly larger font */
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 1.2rem;
+  left: 1.2rem;
   z-index: 2;
   animation: pulse 2s infinite;
   font-weight: 600;
+  box-shadow: var(--shadow);
 }
+
+/* Discount Code Bar (NEW) */
+.deal-badge-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--dark-color); /* Dark contrast background */
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: 0; /* Flat top to connect with image/card body */
+  box-shadow: var(--shadow-lg);
+  margin-top: -4px; /* Pulls up to overlap image border slightly for a seamless look */
+}
+
+.discount-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-color); /* Highlight discount with Gold/Amber */
+}
+
+.copy-button {
+  background: none;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.copy-button:hover {
+  background: var(--accent-color);
+  color: var(--dark-color);
+}
+
+/* Deal CTA Button: High Contrast (NEW) */
+.cta-button-deal {
+  width: 100%;
+  background: var(--secondary-color); /* Deep Teal for Trust/Contrast */
+  color: var(--white);
+  padding: 0.9rem 1rem; /* Slightly increased padding */
+  border: none;
+  border-radius: 0 0 10px 10px; /* Applies to the bottom rounded corner of the card */
+  font-size: 1.15rem; /* Larger font size for prominence */
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 1.5rem; /* Separates from meta info */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(0, 86, 98, 0.4);
+}
+
+.cta-button-deal:hover {
+  background: var(--primary-color); /* Switch to Primary (Urgency) on hover */
+  transform: none; /* No vertical transform on this element, already handled by card hover */
+  box-shadow: var(--shadow-lg);
+}
+
 
 .deal-content {
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem 0.5rem 1.5rem; /* Adjusted padding to accommodate large CTA margin */
+  display: flex;
+  flex-direction: column;
 }
 
+/* Deal Store - Increased for prominence */
 .deal-store {
   color: var(--text-light);
-  font-size: 0.9rem;
+  font-size: 1rem; 
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
@@ -380,9 +474,9 @@ body {
 }
 
 .deal-title {
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1rem;
-  line-height: 1.4;
+  line-height: 1.3;
   color: var(--text-color);
 }
 
@@ -395,7 +489,7 @@ body {
 
 .current-price {
   font-size: 1.3rem;
-  font-weight: bold;
+  font-weight: 800;
   color: var(--primary-color);
 }
 
@@ -404,11 +498,13 @@ body {
   color: var(--text-light);
 }
 
+/* Deal Meta - Increased for legibility */
 .deal-meta {
+  font-size: 0.9rem; 
+  font-weight: 500; 
+  color: var(--text-light);
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--text-light);
 }
 
 .no-deals {
@@ -423,7 +519,7 @@ body {
   color: var(--white);
   padding: 3rem 2rem;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 12px; /* Slightly rounded corners */
   margin: 3rem 0;
   position: relative;
   overflow: hidden;
@@ -493,6 +589,29 @@ body {
   background: var(--primary-dark);
 }
 
+.newsletter-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1.5rem 0; 
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+}
+
+.benefit-item i {
+  color: var(--accent-color);
+  font-size: 1rem;
+}
+
+
 /* Footer */
 .footer {
   background: var(--dark-color);
@@ -508,12 +627,14 @@ body {
   margin-bottom: 2rem;
 }
 
+/* Footer - Used secondary color for titles (Trust signal) */
 .footer-section h4 {
   margin-bottom: 1rem;
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
-.footer-links a {
+/* Footer Links - Applied to buttons as well */
+.footer-links a, .footer-link {
   display: block;
   color: #cbd5e0;
   text-decoration: none;
@@ -522,10 +643,19 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
+  /* Additional styles for button elements used as links */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: left;
+  width: 100%;
+  padding: 0;
 }
 
-.footer-links a:hover {
-  color: var(--primary-color);
+/* Footer Links - Vibrant gold/amber on hover for engagement */
+.footer-links a:hover, .footer-link:hover {
+  color: var(--accent-color);
   transform: translateX(5px);
 }
 
@@ -583,7 +713,7 @@ body {
   }
 
   .hero h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 
   .deals-grid {
@@ -597,6 +727,14 @@ body {
   .language-selector {
     top: 10px;
     right: 10px;
+  }
+  
+  /* Mobile CTA at bottom of card must be full width */
+  .cta-button-deal {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border-radius: 0 0 10px 10px; /* Ensure rounded corners stick to the card */
   }
 }
 /* Loading Styles */
@@ -635,7 +773,7 @@ body {
   align-items: center;
   gap: 10px;
 }
-/* API Status Styles */
+/* API Status Styles (Kept for completeness, though component is removed) */
 .api-status {
   padding: 10px;
   margin: 10px 0;
@@ -683,12 +821,15 @@ body {
 
 .category-info h2 {
   color: var(--text-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
 }
 
 .deals-count {
   color: var(--primary-color);
   font-size: 1rem;
+  font-weight: normal;
 }
 
 /* Search Clear Button */
@@ -712,7 +853,7 @@ body {
   color: var(--white);
   border-color: var(--primary-color);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(229, 90, 43, 0.3);
+  box-shadow: 0 4px 8px rgba(213, 68, 30, 0.3); 
 }
 /* Admin Panel */
 .admin-panel {
@@ -759,7 +900,7 @@ body {
 .deal-form select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(229, 90, 43, 0.1);
+  box-shadow: 0 0 0 3px rgba(213, 68, 30, 0.1); 
 }
 
 .submit-btn {
@@ -867,7 +1008,6 @@ body {
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: var(--shadow);
-  text-align: center;
   border-left: 4px solid var(--primary-color);
 }
 
@@ -965,6 +1105,7 @@ body {
 .preview-info h4 {
   margin: 0 0 0.5rem 0;
   font-size: 1rem;
+  line-height: 1.4;
 }
 
 .preview-info p {
@@ -1063,7 +1204,7 @@ body {
 }
 
 .footer-link:hover {
-  color: var(--primary-color);
+  color: var(--accent-color);
   transform: translateX(5px);
 }
 /* API Status Styles */
@@ -1078,13 +1219,13 @@ body {
 .api-status.connected {
   background: #f0fff4;
   color: #22543d;
-  border-left-color: #38a169;
+  border-left-color: var(--success-color);
 }
 
 .api-status.checking {
   background: #ebf8ff;
   color: #2a4365;
-  border-left-color: #3182ce;
+  border-left-color: var(--info-color);
 }
 
 .api-status.error {
@@ -1160,83 +1301,7 @@ body {
 .deal-form select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(229, 90, 43, 0.1);
-}
-/* API Status Styles */
-.api-status {
-  padding: 12px 16px;
-  margin: 1rem 0;
-  border-radius: 8px;
-  font-weight: 500;
-  border-left: 4px solid;
-}
-
-.api-status.connected {
-  background: #f0fff4;
-  color: #22543d;
-  border-left-color: #38a169;
-}
-
-.api-status.checking {
-  background: #ebf8ff;
-  color: #2a4365;
-  border-left-color: #3182ce;
-}
-
-.api-status.error {
-  background: #fed7d7;
-  color: #c53030;
-  border-left-color: #e53e3e;
-}
-
-.api-status.no-data {
-  background: #fefcbf;
-  color: #744210;
-  border-left-color: #d69e2e;
-}
-
-.status-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.refresh-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: var(--transition);
-}
-
-.refresh-btn:hover {
-  background: rgba(0,0,0,0.1);
-}
-
-/* Form Styles */
-.deal-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-.deal-form input,
-.deal-form select {
-  width: 100%;
-  padding: 0.8rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 5px;
-  font-size: 1rem;
-  transition: var(--transition);
-}
-
-.deal-form input:focus,
-.deal-form select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(229, 90, 43, 0.1);
+  box-shadow: 0 0 0 3px rgba(213, 68, 30, 0.1);
 }
 
 .form-message {
@@ -1273,7 +1338,8 @@ body {
 
 .category-info h2 {
   color: var(--text-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -1283,23 +1349,19 @@ body {
   font-weight: normal;
 }
 
-.clear-search-btn {
-  background: var(--text-light);
-  color: var(--white);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+/* Search Clear Button */
+.clear-search {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
   cursor: pointer;
-  font-size: 0.9rem;
   transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 5px;
 }
 
-.clear-search-btn:hover {
-  background: var(--primary-color);
-  transform: translateY(-1px);
+.clear-search:hover {
+  color: var(--primary-color);
 }
 
 /* Hidden Admin Access */
@@ -1331,15 +1393,6 @@ body {
 }
 
 /* Loading Spinner */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  text-align: center;
-}
-
 .loading-spinner {
   width: 50px;
   height: 50px;
@@ -1378,764 +1431,5 @@ body {
   .admin-link {
     width: 40px;
     height: 40px;
-  }
-}
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  padding: 1rem;
-}
-
-.modal-content {
-  background: var(--white);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 450px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: var(--shadow-xl);
-  animation: modalSlideIn 0.3s ease-out;
-}
-
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 1.5rem 0;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 1.5rem;
-}
-
-.modal-header h2 {
-  margin: 0;
-  color: var(--text-color);
-  font-size: 1.5rem;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  color: var(--text-light);
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: var(--transition);
-}
-
-.close-btn:hover {
-  background: #f7fafc;
-  color: var(--text-color);
-}
-
-/* Auth Form Styles */
-.auth-form {
-  padding: 1.5rem;
-}
-
-.auth-form .form-group {
-  margin-bottom: 1.5rem;
-}
-
-.auth-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-.auth-form input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: var(--transition);
-}
-
-.auth-form input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(229, 90, 43, 0.1);
-}
-
-.auth-submit-btn {
-  width: 100%;
-  background: var(--primary-color);
-  color: var(--white);
-  border: none;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.auth-submit-btn:hover:not(:disabled) {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-.auth-submit-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.auth-footer {
-  padding: 1rem 1.5rem 1.5rem;
-  text-align: center;
-  border-top: 1px solid #e2e8f0;
-}
-
-.auth-footer p {
-  margin: 0;
-  color: var(--text-light);
-}
-
-.auth-switch-btn {
-  background: none;
-  border: none;
-  color: var(--primary-color);
-  cursor: pointer;
-  font-weight: 600;
-  text-decoration: underline;
-}
-
-.auth-switch-btn:hover {
-  color: var(--primary-dark);
-}
-
-/* User Menu Styles */
-.user-menu {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.user-greeting {
-  color: var(--white);
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logout-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: var(--white);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: 500;
-}
-
-.logout-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-}
-
-/* User Welcome Message */
-.user-welcome {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: var(--white);
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  margin: 1rem 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 500;
-}
-
-/* Enhanced Admin Styles */
-.admin-dashboard {
-  text-align: center;
-  margin: 2rem 0;
-  padding: 2rem;
-  background: var(--white);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-}
-
-.admin-dashboard h1 {
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-.admin-dashboard p {
-  color: var(--text-light);
-  margin: 0;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.user-role {
-  background: var(--primary-color);
-  color: var(--white);
-  padding: 0.25rem 0.75rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.admin-section {
-  background: var(--white);
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  margin: 2rem 0;
-}
-
-.admin-section h3 {
-  color: var(--text-color);
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid var(--light-color);
-  padding-bottom: 0.5rem;
-}
-
-.recent-deals-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
-.recent-deal-card {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: var(--transition);
-}
-
-.recent-deal-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.recent-deal-card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-}
-
-.recent-deal-card .deal-info {
-  padding: 1rem;
-}
-
-.recent-deal-card h4 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1rem;
-  line-height: 1.4;
-}
-
-.recent-deal-card .deal-store {
-  color: var(--text-light);
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-}
-
-.recent-deal-card .deal-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.recent-deal-card .deal-price {
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-.recent-deal-card .deal-category {
-  background: var(--light-color);
-  color: var(--text-color);
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  text-transform: capitalize;
-}
-
-.view-more-text {
-  text-align: center;
-  color: var(--text-light);
-  font-style: italic;
-  margin-top: 1rem;
-}
-
-/* Enhanced Stat Cards */
-.stat-card {
-  background: var(--white);
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  text-align: center;
-  border-left: 4px solid var(--primary-color);
-  transition: var(--transition);
-}
-
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.stat-icon {
-  font-size: 2rem;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-.stat-number {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-.stat-label {
-  color: var(--text-light);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .modal-content {
-    margin: 1rem;
-    max-height: 95vh;
-  }
-  
-  .user-menu {
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-end;
-  }
-  
-  .admin-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .recent-deals-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .admin-stats {
-    grid-template-columns: 1fr;
-  }
-  
-  .modal-header {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-  
-  .admin-header-content {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-}
-/* Newsletter Styles */
-.newsletter-message {
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-  text-align: center;
-}
-
-.newsletter-message.success {
-  background: #f0fff4;
-  color: #22543d;
-  border: 1px solid #9ae6b4;
-}
-
-.newsletter-message.error {
-  background: #fed7d7;
-  color: #c53030;
-  border: 1px solid #feb2b2;
-}
-
-.newsletter-benefits {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.benefit-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.9rem;
-}
-
-.benefit-item i {
-  color: var(--accent-color);
-  font-size: 1rem;
-}
-
-/* Newsletter Manager Styles */
-.newsletter-manager {
-  background: var(--white);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.manager-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  background: var(--light-color);
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.manager-header h3 {
-  margin: 0;
-  color: var(--text-color);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.newsletter-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1.5rem;
-  background: #f8fafc;
-}
-
-.subscribers-table-container {
-  overflow-x: auto;
-  max-height: 600px;
-  overflow-y: auto;
-}
-
-.subscribers-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-.subscribers-table th {
-  background: var(--dark-color);
-  color: var(--white);
-  padding: 1rem;
-  text-align: left;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-}
-
-.subscribers-table td {
-  padding: 1rem;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.subscribers-table tr:hover {
-  background: #f7fafc;
-}
-
-.subscriber-email {
-  font-weight: 500;
-}
-
-.status-badge {
-  padding: 0.3rem 0.6rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.status-badge.active {
-  background: #c6f6d5;
-  color: #22543d;
-}
-
-.status-badge.unsubscribed {
-  background: #fed7d7;
-  color: #c53030;
-}
-
-.subscriber-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.no-subscribers {
-  padding: 3rem;
-  text-align: center;
-  color: var(--text-light);
-}
-
-.no-subscribers i {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  opacity: 0.5;
-}
-
-.no-subscribers p {
-  margin: 0 0 0.5rem 0;
-  font-weight: 500;
-}
-
-.no-subscribers span {
-  font-size: 0.9rem;
-}
-
-.export-options {
-  padding: 1.5rem;
-  border-top: 1px solid #e2e8f0;
-  background: #f8fafc;
-}
-
-.export-options h4 {
-  margin: 0 0 1rem 0;
-  color: var(--text-color);
-}
-
-.export-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.export-btn {
-  background: var(--primary-color);
-  color: var(--white);
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 500;
-}
-
-.export-btn:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .newsletter-benefits {
-    grid-template-columns: 1fr;
-  }
-  
-  .newsletter-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .export-buttons {
-    flex-direction: column;
-  }
-  
-  .manager-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-}
-/* Admin Tabs */
-.admin-tabs {
-  display: flex;
-  background: var(--white);
-  border-radius: 12px 12px 0 0;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  margin-top: 2rem;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 1.2rem 1.5rem;
-  border: none;
-  background: var(--light-color);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: center;
-  font-size: 1rem;
-  font-weight: 500;
-  border-bottom: 3px solid transparent;
-}
-
-.tab-btn.active {
-  background: var(--white);
-  color: var(--primary-color);
-  border-bottom: 3px solid var(--primary-color);
-}
-
-.tab-btn:hover:not(.active) {
-  background: #e2e8f0;
-  color: var(--primary-dark);
-}
-
-/* Section Header */
-.section-header {
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.section-header h3 {
-  color: var(--text-color);
-  margin-bottom: 0.5rem;
-  font-size: 1.8rem;
-}
-
-.section-header p {
-  color: var(--text-light);
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-/* Quick Actions */
-.quick-actions {
-  background: var(--white);
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  margin: 2rem 0;
-  text-align: center;
-}
-
-.quick-actions h3 {
-  color: var(--text-color);
-  margin-bottom: 1.5rem;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.action-btn {
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.action-btn.primary {
-  background: var(--primary-color);
-  color: var(--white);
-}
-
-.action-btn.primary:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-.action-btn.secondary {
-  background: var(--light-color);
-  color: var(--text-color);
-  border: 2px solid #e2e8f0;
-}
-
-.action-btn.secondary:hover {
-  background: #e2e8f0;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-}
-
-/* Responsive Design for Admin */
-@media (max-width: 768px) {
-  .admin-tabs {
-    flex-direction: column;
-  }
-  
-  .tab-btn {
-    padding: 1rem;
-    justify-content: flex-start;
-  }
-  
-  .action-buttons {
-    flex-direction: column;
-  }
-  
-  .action-btn {
-    justify-content: center;
-  }
-  
-  .admin-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .recent-deals-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .admin-stats {
-    grid-template-columns: 1fr;
-  }
-  
-  .admin-header-content {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-  
-  .user-info {
-    flex-direction: column;
-    gap: 0.5rem;
   }
 }

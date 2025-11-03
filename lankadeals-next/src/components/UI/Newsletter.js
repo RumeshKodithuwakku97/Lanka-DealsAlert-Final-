@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
+import { getTranslation } from '../../../lib/localizationService';
 
-const Newsletter = ({ onSubscribe }) => {
+const Newsletter = ({ onSubscribe, currentLanguage }) => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  const T = (key, fallback) => getTranslation(currentLanguage, key, fallback);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!email) {
-      setMessage('Please enter your email address.');
+      setMessage(T('message_email_required'));
       return;
     }
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setMessage('Please enter a valid email address.');
+      setMessage(T('message_email_invalid'));
       return;
     }
 
@@ -27,13 +30,13 @@ const Newsletter = ({ onSubscribe }) => {
       const result = await onSubscribe(email);
       
       if (result.success) {
-        setMessage('🎉 Thank you for subscribing! You will receive daily deal alerts.');
+        setMessage(T('message_success'));
         setEmail('');
       } else {
         setMessage(`❌ ${result.error}`);
       }
     } catch (error) {
-      setMessage('❌ An unexpected error occurred. Please try again.');
+      setMessage(T('message_error_unexpected'));
     } finally {
       setLoading(false);
     }
@@ -44,9 +47,9 @@ const Newsletter = ({ onSubscribe }) => {
       <div className="newsletter-content">
         <h3>
           <i className="fas fa-envelope"></i>
-          Get Daily Deal Alerts!
+          {T('newsletter_heading')}
         </h3>
-        <p>Never miss the best deals. We'll send you one email per day with the hottest offers from Sri Lankan stores.</p>
+        <p>{T('newsletter_subtext')}</p>
         
         {message && (
           <div className={`newsletter-message ${message.includes('🎉') ? 'success' : 'error'}`}>
@@ -57,7 +60,7 @@ const Newsletter = ({ onSubscribe }) => {
         <form className="newsletter-form" onSubmit={handleSubmit}>
           <input 
             type="email" 
-            placeholder="Enter your email address" 
+            placeholder={T('newsletter_placeholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
@@ -67,12 +70,12 @@ const Newsletter = ({ onSubscribe }) => {
             {loading ? (
               <>
                 <i className="fas fa-spinner fa-spin"></i>
-                Subscribing...
+                {T('subscribing_button')}
               </>
             ) : (
               <>
                 <i className="fas fa-paper-plane"></i>
-                Subscribe
+                {T('subscribe_button')}
               </>
             )}
           </button>
@@ -81,15 +84,15 @@ const Newsletter = ({ onSubscribe }) => {
         <div className="newsletter-benefits">
           <div className="benefit-item">
             <i className="fas fa-bolt"></i>
-            <span>Hot deals delivered daily</span>
+            <span>{T('benefit_1')}</span>
           </div>
           <div className="benefit-item">
             <i className="fas fa-shield-alt"></i>
-            <span>No spam, unsubscribe anytime</span>
+            <span>{T('benefit_2')}</span>
           </div>
           <div className="benefit-item">
             <i className="fas fa-gift"></i>
-            <span>Exclusive offers for subscribers</span>
+            <span>{T('benefit_3')}</span>
           </div>
         </div>
       </div>

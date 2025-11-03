@@ -1,5 +1,5 @@
 // app/api/deals/route.js
-// This file securely fetches data from Airtable on the server.
+// SECURED: Implements Output Sanitization for XSS Prevention
 
 import AirtableModule from 'airtable';
 import { NextResponse } from 'next/server';
@@ -9,6 +9,14 @@ const Airtable = AirtableModule.default || AirtableModule;
 // Environment variables for security (only accessible here on the server)
 const AIRTABLE_DEALS_TABLE = 'Deals'; 
 const AIRTABLE_NEWSLETTER_TABLE = 'Subscribers';
+
+// --- SECURITY BARRIER: Output Sanitization Function ---
+const sanitizeString = (str) => {
+    if (!str || typeof str !== 'string') return '';
+    // Replaces dangerous characters with their HTML entities to prevent execution on the client.
+    return str.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+};
+// --- END SECURITY BARRIER ---
 
 // Initialize Base Constructor
 const AirtableConstructor = Airtable;
@@ -33,18 +41,18 @@ export async function GET(request) {
     records.forEach((record, index) => {
       const fields = record.fields;
       
-      // Map Airtable fields to frontend properties
+      // Map Airtable fields to frontend properties, applying sanitization to every string field
       deals.push({
-        id: record.id || index,
-        title: fields.Title || 'No Title',
-        store: fields.Store || 'Unknown Store',
-        currentprice: fields.Current_Price || '', 
-        originalprice: fields.Original_Price || '',
-        discount: fields.Discount_Percentage || '',
-        imageurl: fields.Image_URL || 'https://via.placeholder.com/300',
-        category: fields.Category ? fields.Category.toLowerCase() : 'other',
-        expiry: fields.Expiry_Date || 'N/A',
-        affiliateurl: fields.Affiliate_Link || '#'
+        id: sanitizeString(record.id || index.toString()),
+        title: sanitizeString(fields.Title),
+        store: sanitizeString(fields.Store),
+        currentprice: sanitizeString(fields.Current_Price), 
+        originalprice: sanitizeString(fields.Original_Price),
+        discount: sanitizeString(fields.Discount_Percentage),
+        imageurl: sanitizeString(fields.Image_URL) || 'https://via.placeholder.com/300',
+        category: sanitizeString(fields.Category ? fields.Category.toLowerCase() : 'other'),
+        expiry: sanitizeString(fields.Expiry_Date),
+        affiliateurl: sanitizeString(fields.Affiliate_Link) || '#'
       });
     });
     

@@ -8,9 +8,9 @@ import HeroSection from './UI/HeroSection';
 import DealsGrid from './Deals/DealsGrid';
 import Newsletter from './UI/Newsletter';
 import Footer from './Layout/Footer';
-import ApiStatus from './UI/ApiStatus';
 import { airtableService } from '../../lib/airtableService'; 
-// NOTE: Header and other components must also have "use client" if they use hooks/events.
+// Import the new localization service
+import { getTranslation } from '../../lib/localizationService'; 
 
 export default function ClientHomePage() {
     // Initialize data to null to indicate initial loading state
@@ -20,6 +20,8 @@ export default function ClientHomePage() {
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true); 
+
+    const T = (key, fallback) => getTranslation(currentLanguage, key, fallback);
 
     // --- Search & Filter Handlers ---
     const handleSearch = (term) => {
@@ -96,10 +98,23 @@ export default function ClientHomePage() {
 
 
     // --- Render Logic ---
+    // Determine the category display name for the heading
+    const categoryName = T(`category_${activeCategory}`);
+    const headingText = searchTerm 
+        ? `${T('search_results_for')} "${searchTerm}"`
+        : activeCategory === 'all' 
+            ? T('all_hot_deals_heading')
+            : `${categoryName}${T('deals_heading_suffix')}`;
+
     if (loading || filteredDeals === null) {
         return (
             <div className="App loading-screen">
-                <Header />
+                <Header 
+                    currentLanguage={currentLanguage} 
+                    setCurrentLanguage={setCurrentLanguage}
+                    onSearch={handleSearch}
+                    searchTerm={searchTerm}
+                />
                 <div className="loading-spinner">
                     <i className="fas fa-spinner fa-spin"></i> Loading Deals...
                 </div>
@@ -111,37 +126,29 @@ export default function ClientHomePage() {
         <div className="App">
             <Header 
                 currentLanguage={currentLanguage} 
-                setCurrentLanguage={setCurrentLanguage} // Passed correctly
-                onSearch={handleSearch} // Passed correctly
+                setCurrentLanguage={setCurrentLanguage}
+                onSearch={handleSearch}
                 searchTerm={searchTerm}
             />
 
             <Navigation 
                 onCategoryChange={handleCategoryChange} 
                 activeCategory={activeCategory}
+                currentLanguage={currentLanguage}
             />
 
-            <HeroSection />
+            <HeroSection 
+                currentLanguage={currentLanguage}
+            />
 
             <div className="container">
-                <ApiStatus 
-                    onRefresh={refreshDeals} 
-                    loading={loading} 
-                    dealsCount={filteredDeals.length}
-                /> 
+                {/* ApiStatus component previously rendered here has been removed */}
                 
                 <div className="content-header">
                     <div className="category-info">
                         <h2>
-                            {searchTerm ? (
-                                <>Search Results for "{searchTerm}"</>
-                            ) : (
-                                <>
-                                    {activeCategory === 'all' ? 'All Hot Deals' : 
-                                    `${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Deals`}
-                                </>
-                            )}
-                            <span className="deals-count"> ({filteredDeals.length} deals)</span>
+                            {headingText}
+                            <span className="deals-count"> ({filteredDeals.length} {T('deals_count_suffix')})</span>
                         </h2>
                         {searchTerm && (
                             <button 
@@ -149,18 +156,18 @@ export default function ClientHomePage() {
                                 onClick={() => handleSearch('')}
                             >
                                 <i className="fas fa-times"></i>
-                                Clear Search
+                                {T('clear_search_button')}
                             </button>
                         )}
                     </div>
                 </div>
 
-                <DealsGrid deals={filteredDeals} />
+                <DealsGrid deals={filteredDeals} currentLanguage={currentLanguage} />
 
-                <Newsletter onSubscribe={handleNewsletterSubscribe} />
+                <Newsletter onSubscribe={handleNewsletterSubscribe} currentLanguage={currentLanguage} />
             </div>
 
-            <Footer />
+            <Footer currentLanguage={currentLanguage} />
         </div>
     );
 }

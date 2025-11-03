@@ -1,6 +1,7 @@
 // src/components/Layout/Header.js (Simplified for Public Site)
 "use client";
 import React, { useState } from 'react';
+import { getTranslation } from '../../../lib/localizationService';
 // REMOVED: import LoginModal from '../Auth/LoginModal';
 // REMOVED: import SignupModal from '../Auth/SignupModal';
 
@@ -13,6 +14,8 @@ const Header = ({
 }) => {
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm || '');
   // REMOVED: showLoginModal, showSignupModal
+
+  const T = (key, fallback) => getTranslation(currentLanguage, key, fallback);
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
@@ -56,11 +59,7 @@ const Header = ({
             <i className="fas fa-search" onClick={handleSearch}></i>
             <input 
               type="text" 
-              placeholder={
-                currentLanguage === 'en' ? "Search for deals, products, or stores..." :
-                currentLanguage === 'si' ? "ගනුදෙනු, නිෂ්පාදන, හෝ වෙළඳසැල් සොයන්න..." :
-                "ஒப்பந்தங்கள், பொருட்கள் அல்லது கடைகளைத் தேடுங்கள்..."
-              }
+              placeholder={T('search_placeholder')} // Use translation helper
               value={localSearchTerm}
               onChange={(e) => setLocalSearchTerm(e.target.value)}
               onKeyPress={handleSearch}
