@@ -53,7 +53,7 @@ const Header = ({
         <div className="header-top">
           <div className="logo">
             <i className="fas fa-tags"></i>
-            Lanka<span>Deals</span>Alerts
+            All<span>Deals</span>.lk
           </div>
           <div className="search-bar">
             <i className="fas fa-search" onClick={handleSearch}></i>

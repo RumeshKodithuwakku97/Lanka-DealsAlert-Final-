@@ -1,7 +1,7 @@
 // lib/airtableService.js
 // This file is the client-side proxy to the internal API Routes.
 
-const AIRTABLE_NEWSLETTER_TABLE = 'Subscribers'; 
+// const AIRTABLE_NEWSLETTER_TABLE = 'Subscribers'; // COMMENTED OUT: No longer needed
 
 export const airtableService = {
   /**
@@ -26,9 +26,7 @@ export const airtableService = {
     }
   },
 
-  /**
-   * Subscription call (which hits your server-side /api/subscribe route)
-   */
+  /* TEMPORARILY REMOVED:
   subscribeNewsletter: async (email) => {
     const response = await fetch('/api/subscribe', {
       method: 'POST',
@@ -37,4 +35,5 @@ export const airtableService = {
     });
     return await response.json();
   }
+  */
 };

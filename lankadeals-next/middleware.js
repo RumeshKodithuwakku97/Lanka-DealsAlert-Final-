@@ -33,7 +33,7 @@ export async function middleware(request) {
     // =================================================================
     // BARRIER 1: RATE LIMITING (DoS Defense)
     // =================================================================
-    if (pathname.startsWith('/api/go/') || pathname === '/api/subscribe') {
+    if (pathname.startsWith('/api/go/')) { // MODIFIED: Removed check for '/api/subscribe'
         const { limited, retryAfter } = await checkRateLimit(ip, pathname);
 
         if (limited) {
@@ -77,7 +77,7 @@ export async function middleware(request) {
 export const config = {
     matcher: [
         '/api/go/:path*',      // Rate limits all affiliate link redirects
-        '/api/subscribe',      // Rate limits newsletter subscriptions
+        // '/api/subscribe',      // REMOVED: Rate limits newsletter subscriptions
         '/admin/:path*',       // Protects hypothetical UI admin dashboard
         '/api/admin/:path*'    // Protects hypothetical admin APIs
     ],

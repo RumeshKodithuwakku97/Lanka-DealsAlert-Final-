@@ -6,7 +6,7 @@ import Header from './Layout/Header';
 import Navigation from './Layout/Navigation';
 import HeroSection from './UI/HeroSection';
 import DealsGrid from './Deals/DealsGrid';
-import Newsletter from './UI/Newsletter';
+// REMOVED: import Newsletter from './UI/Newsletter';
 import Footer from './Layout/Footer';
 import { airtableService } from '../../lib/airtableService'; 
 // Import the new localization service
@@ -36,9 +36,7 @@ export default function ClientHomePage() {
         setSearchTerm('');
     };
 
-    const handleNewsletterSubscribe = async (email) => {
-        return await airtableService.subscribeNewsletter(email); 
-    };
+    // REMOVED: handleNewsletterSubscribe function was removed
 
     // --- Data Fetching Logic ---
     const fetchData = async () => {
@@ -164,7 +162,7 @@ export default function ClientHomePage() {
 
                 <DealsGrid deals={filteredDeals} currentLanguage={currentLanguage} />
 
-                <Newsletter onSubscribe={handleNewsletterSubscribe} currentLanguage={currentLanguage} />
+                {/* Newsletter component will be re-added in the future */}
             </div>
 
             <Footer currentLanguage={currentLanguage} />
